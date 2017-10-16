@@ -33,9 +33,10 @@ import commands							# system commands
 import math								# mathematical functions
 import time								# time handling
 
-#
-# === Create Stack class
-#
+# ------------------------------------------------------------------------
+# 				Create Stack class
+# ------------------------------------------------------------------------
+
 class Stack:
      def __init__(self):
          self.items = []
@@ -59,9 +60,11 @@ class Stack:
      def gimme(self,ptr):
      	return(self.items[ptr])
 
-#
-# === Show the content of the stack
-#
+
+# ------------------------------------------------------------------------
+# 				Show the status
+# ------------------------------------------------------------------------
+
 def showStatus():
 	t.staClear()
 	if anglesDegrees:
@@ -69,18 +72,21 @@ def showStatus():
 	else:
 		t.staPrint("RAD")
 
-#
-# === Show the content of the stack
-#
+# ------------------------------------------------------------------------
+# 				Show the content of the stack
+# ------------------------------------------------------------------------
+
 def showStack():
 	t.msgClear()
 	if stack.size() > 0:
 		for i in range(0, stack.size()):
 			t.msgPrint(stack.gimme(i))
 
-#
-# === Show help information
-#
+
+# ------------------------------------------------------------------------
+# 				Show help information
+# ------------------------------------------------------------------------
+
 def showHelp():
 	t.cmdPrint("HELP information")
 	t.cmdPrint(" ")
@@ -92,6 +98,12 @@ def showHelp():
 	t.cmdPrint("SIN, COS, TAN,  : Goniometric functions, work ")
 	t.cmdPrint("ASIN, ACOS, ATAN     on top entry of stack")
 	t.cmdPrint(" ")
+	t.cmdPrint("EXP             : e ^ top stack entry")
+	t.cmdPrint("FAC             : Factorial of top stack entry")
+	t.cmdPrint("LN              : Natural log (base e) of top stack entry")
+	t.cmdPrint("LOG             : Log (base 10) of top stack entry")
+	t.cmdPrint("SQR             : Square root of top stack entry")
+	t.cmdPrint(" ")
 	t.cmdPrint("PI, E           : Constants")
 	t.cmdPrint(" ")
 	t.cmdPrint("DEG, RAD        : Mode switch Degrees - Radians")
@@ -100,9 +112,11 @@ def showHelp():
 	t.cmdPrint("SWAP            : Switch top two entries from stack")
 	t.cmdPrint(" ")
 
-#
-# === check whether a string is a number
-#
+
+# ------------------------------------------------------------------------
+# 				Check whether a string is a number
+# ------------------------------------------------------------------------
+
 def is_number(s):
     try:
         float(s)
@@ -110,28 +124,32 @@ def is_number(s):
     except ValueError:
         return False
         
-#
-# === Variables
-#
-anglesDegrees = True					# Are we in Degrees mode?
 
 # ------------------------------------------------------------------------
-#													Start executable code
+#													Variables
 # ------------------------------------------------------------------------
 
+t = term("Status", "Commands", "Stack")	# Instantiate terminal screen object
+stack = Stack()							# Instantiate stack object
 
-#
-# === Instantiate terminal screen object
-#
-t = term("Status", "Commands", "Stack")
+ClientID = commands.getoutput("whoami")	# Get user name
 
-ClientID = commands.getoutput("whoami")
-
+t.cmdPrint("                    _____     __   ")
+t.cmdPrint("  ___ ____ __    __/ ___/__ _/ /___")
+t.cmdPrint(" / _ `/ _ `/ |/|/ / /__/ _ `/ / __/")
+t.cmdPrint(" \\_, /\\_,_/|__,__/\\___/\\_,_/_/\\__/ ")
+t.cmdPrint("/___/                              ")
+t.cmdPrint("")
 t.cmdPrint("Hi " + ClientID + " - started gawCalc program for you")
 t.cmdPrint("--- type '?' if you would like help")
 t.cmdPrint(" ")
 
-stack = Stack()
+anglesDegrees = True					# Are we in Degrees mode?
+
+
+# ------------------------------------------------------------------------
+#													Start executable code
+# ------------------------------------------------------------------------
 
 showStack()
 showStatus()
@@ -260,6 +278,21 @@ while go_on:
 					stack.push(str(math.atan(r)))
 			else:
 				t.cmdPrint("To few entries on stack to do "+repl)
+
+		elif repl == "FAC":
+			stack.push(str(math.factorial(float(stack.pop()))))
+
+		elif repl == "SQR":
+			stack.push(str(math.sqrt(float(stack.pop()))))
+
+		elif repl == "EXP":
+			stack.push(str(math.exp(float(stack.pop()))))
+
+		elif repl == "LN":
+			stack.push(str(math.log(float(stack.pop()))))
+
+		elif repl == "LOG":
+			stack.push(str(math.log10(float(stack.pop()))))
 
 		elif repl == "POP":
 			a = stack.pop()
