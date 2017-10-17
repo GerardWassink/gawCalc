@@ -134,6 +134,13 @@ stack = Stack()							# Instantiate stack object
 
 ClientID = commands.getoutput("whoami")	# Get user name
 
+anglesDegrees = True					# Are we in Degrees mode?
+
+
+# ------------------------------------------------------------------------
+#													Start executable code
+# ------------------------------------------------------------------------
+
 t.cmdPrint("                    _____     __   ")
 t.cmdPrint("  ___ ____ __    __/ ___/__ _/ /___")
 t.cmdPrint(" / _ `/ _ `/ |/|/ / /__/ _ `/ / __/")
@@ -144,12 +151,6 @@ t.cmdPrint("Hi " + ClientID + " - started gawCalc program for you")
 t.cmdPrint("--- type '?' if you would like help")
 t.cmdPrint(" ")
 
-anglesDegrees = True					# Are we in Degrees mode?
-
-
-# ------------------------------------------------------------------------
-#													Start executable code
-# ------------------------------------------------------------------------
 
 showStack()
 showStatus()
