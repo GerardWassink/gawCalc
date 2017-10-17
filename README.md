@@ -5,15 +5,9 @@ Every time I encounter a new programming language I take this example to get to 
 ## RPN or Reverse Polish Notation
 An article about RPN can be [found here](https://en.wikipedia.org/wiki/Reverse_Polish_notation). In short, when we would write:
 
-'normal' notation:
+'normal' notation: **45 + (67 - 32)**
 
-**```45 + (67 - 32)
-```**
-
-In RPN that would be:
-
-**```67 32 - 45 +
-```**
+In RPN that would be: **67 32 - 45 +**
 
 So we start inside the inner brackets and work our way out.
 
