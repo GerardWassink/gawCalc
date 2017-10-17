@@ -180,13 +180,19 @@ while go_on:
 			showHelp()
 
 		elif repl == "POP":			### Remove top stack entry
-			a = stack.pop()
+			if stack.size() > 0:
+				stack.pop()
+			else:
+				t.cmdPrint("To few entries on stack to do "+repl)
 
 		elif repl == "SWAP":		### Swap top two stack entries
-			a = stack.pop()
-			b = stack.pop()
-			stack.push(a)
-			stack.push(b)
+			if stack.size() > 1:
+				a = stack.pop()
+				b = stack.pop()
+				stack.push(a)
+				stack.push(b)
+			else:
+				t.cmdPrint("To few entries on stack to do "+repl)
 			
 		elif repl == "RAD":				### Change mode to radians
 			anglesDegrees = False
