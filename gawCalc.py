@@ -317,7 +317,8 @@ while go_on:
 		# === Mathematical functions
 		#
 		elif repl == "FAC":			### Calculate factorial of value on stack
-			stack.push(str(math.factorial(float(stack.pop()))))
+			if stack.size() > 0:
+				stack.push(str(math.factorial(float(stack.pop()))))
 
 		elif repl == "SQR":			### Calculate square root of value on stack
 			stack.push(str(math.sqrt(float(stack.pop()))))
