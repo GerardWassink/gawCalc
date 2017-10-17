@@ -92,8 +92,13 @@ def showHelp():
 	t.cmdPrint(" ")
 	t.cmdPrint("Commands")
 	t.cmdPrint(" ")
-	t.cmdPrint("^, *, /, +, -   : Arithmetic functions, work")
+	t.cmdPrint("POP             : Remove top entry from stack")
+	t.cmdPrint("SWAP            : Switch top two entries from stack")
+	t.cmdPrint("DEG, RAD        : Mode switch Degrees - Radians")
+	t.cmdPrint(" ")
+	t.cmdPrint("^, *, /, +, -   : Calculus functions, work")
 	t.cmdPrint("                     on top two entries of stack")
+	t.cmdPrint("INV             : inverse (1/X) of top stack entry")
 	t.cmdPrint(" ")
 	t.cmdPrint("SIN, COS, TAN,  : Goniometric functions, work ")
 	t.cmdPrint("ASIN, ACOS, ATAN     on top entry of stack")
@@ -105,11 +110,6 @@ def showHelp():
 	t.cmdPrint("SQR             : Square root of top stack entry")
 	t.cmdPrint(" ")
 	t.cmdPrint("PI, E           : Constants")
-	t.cmdPrint(" ")
-	t.cmdPrint("DEG, RAD        : Mode switch Degrees - Radians")
-	t.cmdPrint(" ")
-	t.cmdPrint("POP             : Remove top entry from stack")
-	t.cmdPrint("SWAP            : Switch top two entries from stack")
 	t.cmdPrint(" ")
 
 
@@ -162,64 +162,91 @@ while go_on:
 
 	for repl in replies:
 
-		if repl in [ "EXIT", "X", "QUIT", "Q"]:
+		#
+		# === Push numbers
+		#
+		if is_number(repl):				### If it's a number, push it 
+			stack.push(repl)
+
+		#
+		# === Housekeeping
+		#
+		elif repl in [ "EXIT", "X", "QUIT", "Q"]:	### Quit program?
 			go_on = False
 			break
 
-		elif repl in [ "HELP", "H", "?"]:
+		elif repl in [ "HELP", "H", "?"]:	### Help request?
 			showHelp()
 
-		elif is_number(repl):
-			stack.push(repl)
+		elif repl == "POP":			### Remove top stack entry
+			a = stack.pop()
 
-		elif repl == "^":
+		elif repl == "SWAP":		### Swap top two stack entries
+			a = stack.pop()
+			b = stack.pop()
+			stack.push(a)
+			stack.push(b)
+			
+		elif repl == "RAD":				### Change mode to radians
+			anglesDegrees = False
+
+		elif repl == "DEG":				### Change mode to degrees
+			anglesDegrees = True
+
+		#
+		# === Calculus functions
+		#
+		elif repl == "^":				### Raise to the power
 			if stack.size() > 1:
 				r = float(stack.pop())
 				stack.push(str(math.pow(float(stack.pop()), r)))
 			else:
-				t.staPrint("To few entries on stack to do "+repl)
+				t.cmdPrint("To few entries on stack to do "+repl)
 
-		elif repl == "*":
+		elif repl == "*":				### Multiply
 			if stack.size() > 1:
 				r = float(stack.pop())
 				stack.push(str(float(stack.pop()) * r))
 			else:
-				t.staPrint("To few entries on stack to do "+repl)
+				t.cmdPrint("To few entries on stack to do "+repl)
 
-		elif repl == "/":
+		elif repl == "/":				### Divide
 			if stack.size() > 1:
 				r = float(stack.pop())
 				stack.push(str(float(stack.pop()) / r))
 			else:
-				t.staPrint("To few entries on stack to do "+repl)
+				t.cmdPrint("To few entries on stack to do "+repl)
 
-		elif repl == "+":
+		elif repl == "+":				### Addition
 			if stack.size() > 1:
 				r = float(stack.pop())
 				stack.push(str(float(stack.pop()) + r))
 			else:
-				t.staPrint("To few entries on stack to do "+repl)
+				t.cmdPrint("To few entries on stack to do "+repl)
 
-		elif repl == "-":
+		elif repl == "-":				### Subtraction
 			if stack.size() > 1:
 				r = float(stack.pop())
 				stack.push(str(float(stack.pop()) - r))
 			else:
-				t.staPrint("To few entries on stack to do "+repl)
+				t.cmdPrint("To few entries on stack to do "+repl)
 
-		elif repl == "RAD":
-			anglesDegrees = False
+		elif repl == "INV":				### Calulate inverse (1/x)
+			stack.push(str(1 / float(stack.pop())))
 
-		elif repl == "DEG":
-			anglesDegrees = True
-
-		elif repl == "PI":
+		#
+		# === Entering constants
+		#
+		elif repl == "PI":				### Push pi onto stack
 			stack.push(str(math.pi))
 
-		elif repl == "E":
+		elif repl == "E":				### Push e onto stack
 			stack.push(str(math.e))
 
-		elif repl == "SIN":
+		#
+		# === Trigonometric functions
+		#
+		elif repl == "SIN":				### Calculate sine of angle on stack
 			if stack.size() > 0:
 				r = float(stack.pop())
 				if anglesDegrees:
@@ -229,7 +256,7 @@ while go_on:
 			else:
 				t.cmdPrint("To few entries on stack to do "+repl)
 
-		elif repl == "COS":
+		elif repl == "COS":				### Calculate cosine of angle on stack
 			if stack.size() > 0:
 				r = float(stack.pop())
 				if anglesDegrees:
@@ -239,7 +266,7 @@ while go_on:
 			else:
 				t.cmdPrint("To few entries on stack to do "+repl)
 
-		elif repl == "TAN":
+		elif repl == "TAN":				### Calculate tangent of angle on stack
 			if stack.size() > 0:
 				r = float(stack.pop())
 				if anglesDegrees:
@@ -249,7 +276,7 @@ while go_on:
 			else:
 				t.cmdPrint("To few entries on stack to do "+repl)
 
-		elif repl == "ASIN":
+		elif repl == "ASIN":			### Calculate arc sine of angle on stack
 			if stack.size() > 0:
 				r = float(stack.pop())
 				if anglesDegrees:
@@ -259,7 +286,7 @@ while go_on:
 			else:
 				t.cmdPrint("To few entries on stack to do "+repl)
 
-		elif repl == "ACOS":
+		elif repl == "ACOS":			### Calculate arc cosine of angle on stack
 			if stack.size() > 0:
 				r = float(stack.pop())
 				if anglesDegrees:
@@ -269,7 +296,7 @@ while go_on:
 			else:
 				t.cmdPrint("To few entries on stack to do "+repl)
 
-		elif repl == "ATAN":
+		elif repl == "ATAN":			### Calculate arc tangent of angle on stack
 			if stack.size() > 0:
 				r = float(stack.pop())
 				if anglesDegrees:
@@ -279,29 +306,29 @@ while go_on:
 			else:
 				t.cmdPrint("To few entries on stack to do "+repl)
 
-		elif repl == "FAC":
+		#
+		# === Mathematical functions
+		#
+		elif repl == "FAC":			### Calculate factorial of value on stack
 			stack.push(str(math.factorial(float(stack.pop()))))
 
-		elif repl == "SQR":
+		elif repl == "SQR":			### Calculate square root of value on stack
 			stack.push(str(math.sqrt(float(stack.pop()))))
 
-		elif repl == "EXP":
+		elif repl == "EXP":			### Calculate e^x of value on stack
 			stack.push(str(math.exp(float(stack.pop()))))
 
-		elif repl == "LN":
+		elif repl == "LN":			### Calculate natural log of value on stack
 			stack.push(str(math.log(float(stack.pop()))))
 
-		elif repl == "LOG":
+		elif repl == "LOG":			### Calculate log base 10 of value on stack
 			stack.push(str(math.log10(float(stack.pop()))))
 
-		elif repl == "POP":
-			a = stack.pop()
-
-		elif repl == "SWAP":
-			a = stack.pop()
-			b = stack.pop()
-			stack.push(a)
-			stack.push(b)
+		#
+		# === Fall through
+		#
+		else:
+			t.cmdPrint("Don't know how to handle "+repl)
 
 		showStack()
 		showStatus()
